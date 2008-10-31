@@ -2,8 +2,8 @@
 %define         shortversion %(echo %{version} | sed -e 's/\([0-9]*\.[0-9]*\)\.[0-9]*/\1/')
 
 Name:           cherokee
-Version:        0.8.1
-Release:        2%{?dist}
+Version:        0.10.0
+Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -114,7 +114,7 @@ fi
 %{_bindir}/spawn-fcgi
 %{_sbindir}/cherokee
 %{_sbindir}/cherokee-admin
-%{_sbindir}/cherokee-guardian
+%{_sbindir}/cherokee-worker
 %{_libdir}/%{name}
 %{_libdir}/lib%{name}-*.so.*
 %{_datadir}/%{name}
@@ -127,7 +127,7 @@ fi
 %doc %{_mandir}/man1/cherokee.1*
 %doc %{_mandir}/man1/cherokee-tweak.1*
 %doc %{_mandir}/man1/cherokee-admin.1*
-%doc %{_mandir}/man1/cherokee-guardian.1*
+%doc %{_mandir}/man1/cherokee-worker.1*
 %doc %{_mandir}/man1/spawn-fcgi.1*
 %dir %{_var}/www/%{name}/
 %dir %{_var}/www/%{name}/images/
@@ -148,6 +148,8 @@ fi
 
 
 %changelog
+* Fri Oct 31 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.10.0-1
+- updated to 0.10.0
 * Sun Sep 07 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.8.1-2
 - corrections in spec
 * Sun Sep 07 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.8.1-1
