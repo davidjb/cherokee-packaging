@@ -1,9 +1,13 @@
 %define         home %{_var}/lib/%{name}
 %define         shortversion %(echo %{version} | sed -e 's/\([0-9]*\.[0-9]*\)\.[0-9]*/\1/')
+%define         is_el4 %(if [ "%{dist}" == ".el4" ] ; then echo true ; fi)
+%if "%{is_el4}"
+ExcludeArch:    ppc
+%endif
 
 Name:           cherokee
 Version:        0.11.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -13,7 +17,6 @@ Source0:        http://www.cherokee-project.com/download/%{shortversion}/%{versi
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source1:        %{name}.init
 Source2:        %{name}.logrotate
-ExcludeArch:    ppc
 
 BuildRequires:  openssl-devel pam-devel pcre-devel mysql-devel
 # For spawn-fcgi
@@ -157,6 +160,8 @@ fi
 
 
 %changelog
+* Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-3
+- ppc arch excluded only for el4
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-2
 - ppc arch excluded
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-1
