@@ -1,9 +1,13 @@
 %define         home %{_var}/lib/%{name}
 %define         shortversion %(echo %{version} | sed -e 's/\([0-9]*\.[0-9]*\)\.[0-9]*/\1/')
+%define         is_el4 %(if [ "%{dist}" == ".el4" ] ; then echo true ; fi)
+%if "%{is_el4}"
+ExcludeArch:    ppc
+%endif
 
 Name:           cherokee
 Version:        0.11.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -156,6 +160,10 @@ fi
 
 
 %changelog
+* Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-3
+- ppc arch excluded only for el4
+* Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-2
+- ppc arch excluded
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-1
 - updated to 0.11.2
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.10.0-3
