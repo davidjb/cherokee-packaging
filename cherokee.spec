@@ -3,7 +3,7 @@
 
 Name:           cherokee
 Version:        0.10.0
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -15,6 +15,8 @@ Source1:        %{name}.init
 Source2:        %{name}.logrotate
 
 BuildRequires:  openssl-devel pam-devel pcre-devel mysql-devel
+# For spawn-fcgi
+Requires:	lighttpd-fastcgi
 Requires(post): chkconfig
 Requires(preun): chkconfig
 Requires(preun): initscripts
@@ -41,11 +43,11 @@ This package holds the development files for cherokee.
 %prep
 %setup -q
 
-
 %build
-%configure \
-    --with-wwwroot=%{_var}/www/%{name} \
-    --enable-tls=openssl --enable-pthreads --enable-trace --disable-static
+%configure --with-wwwroot=%{_var}/www/%{name} --enable-tls=openssl --enable-pthreads --enable-trace --disable-static --disable-rpath
+# Get rid of rpath
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 make %{?_smp_mflags}
 
 
@@ -74,6 +76,11 @@ rmdir %{buildroot}%{_sysconfdir}/%{name}/ssl
 mv ChangeLog ChangeLog.iso8859-1
 chmod -x COPYING
 iconv -f ISO8859-1 -t UTF8 ChangeLog.iso8859-1 > ChangeLog
+
+# Get rid of spawn-fcgi bits, they conflict with the lighttpd-fastcgi package
+# but are otherwise identical.
+rm -rf %{buildroot}%{_bindir}/spawn-fcgi
+rm -rf %{buildroot}%{_mandir}/man1/spawn-fcgi.*
 
 
 %clean
@@ -111,7 +118,7 @@ fi
 %{_bindir}/cget
 %{_bindir}/cherokee-panic
 %{_bindir}/cherokee-tweak
-%{_bindir}/spawn-fcgi
+# %%{_bindir}/spawn-fcgi
 %{_sbindir}/cherokee
 %{_sbindir}/cherokee-admin
 %{_sbindir}/cherokee-worker
@@ -128,7 +135,8 @@ fi
 %doc %{_mandir}/man1/cherokee-tweak.1*
 %doc %{_mandir}/man1/cherokee-admin.1*
 %doc %{_mandir}/man1/cherokee-worker.1*
-%doc %{_mandir}/man1/spawn-fcgi.1*
+# %%doc %{_mandir}/man1/spawn-fcgi.1*
+%dir %{_var}/www/
 %dir %{_var}/www/%{name}/
 %dir %{_var}/www/%{name}/images/
 %config(noreplace) %{_var}/www/%{name}/images/cherokee-logo.png
@@ -140,7 +148,7 @@ fi
 %defattr(-,root,root,-)
 %{_mandir}/man1/cherokee-config.1*
 %{_bindir}/cherokee-config
-##%{_includedir}/%{name}
+%dir %{_includedir}/%{name}/
 %{_includedir}/%{name}/*.h
 %{_libdir}/pkgconfig/%{name}.pc
 %{_datadir}/aclocal/%{name}.m4
@@ -148,6 +156,12 @@ fi
 
 
 %changelog
+* Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.10.0-3
+- Unowned directories, Resolves bz 474634
+* Thu Nov  6 2008 Tom "spot" Callaway <tcallawa@redhat.com> - 0.10.0-2
+- do not package spawn-fcgi files (lighttpd-fastcgi provides them)
+  Resolves bz 469947
+- get rid of rpath in compiled files
 * Fri Oct 31 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.10.0-1
 - updated to 0.10.0
 * Sun Sep 07 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.8.1-2
