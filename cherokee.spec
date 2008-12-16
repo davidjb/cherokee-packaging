@@ -3,7 +3,7 @@
 
 Name:           cherokee
 Version:        0.11.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -13,6 +13,7 @@ Source0:        http://www.cherokee-project.com/download/%{shortversion}/%{versi
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source1:        %{name}.init
 Source2:        %{name}.logrotate
+ExcludeArch:    ppc
 
 BuildRequires:  openssl-devel pam-devel pcre-devel mysql-devel
 # For spawn-fcgi
@@ -156,6 +157,8 @@ fi
 
 
 %changelog
+* Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-2
+- ppc arch excluded
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-1
 - updated to 0.11.2
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.10.0-3
