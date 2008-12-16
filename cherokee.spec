@@ -3,7 +3,7 @@
 
 Name:           cherokee
 Version:        0.10.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -136,6 +136,7 @@ fi
 %doc %{_mandir}/man1/cherokee-admin.1*
 %doc %{_mandir}/man1/cherokee-worker.1*
 # %%doc %{_mandir}/man1/spawn-fcgi.1*
+%dir %{_var}/www/
 %dir %{_var}/www/%{name}/
 %dir %{_var}/www/%{name}/images/
 %config(noreplace) %{_var}/www/%{name}/images/cherokee-logo.png
@@ -147,7 +148,7 @@ fi
 %defattr(-,root,root,-)
 %{_mandir}/man1/cherokee-config.1*
 %{_bindir}/cherokee-config
-##%{_includedir}/%{name}
+%dir %{_includedir}/%{name}/
 %{_includedir}/%{name}/*.h
 %{_libdir}/pkgconfig/%{name}.pc
 %{_datadir}/aclocal/%{name}.m4
@@ -155,6 +156,8 @@ fi
 
 
 %changelog
+* Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.10.0-3
+- Unowned directories, Resolves bz 474634
 * Thu Nov  6 2008 Tom "spot" Callaway <tcallawa@redhat.com> - 0.10.0-2
 - do not package spawn-fcgi files (lighttpd-fastcgi provides them)
   Resolves bz 469947
