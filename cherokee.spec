@@ -2,8 +2,8 @@
 %define         shortversion %(echo %{version} | sed -e 's/\([0-9]*\.[0-9]*\)\.[0-9]*/\1/')
 
 Name:           cherokee
-Version:        0.10.0
-Release:        3%{?dist}
+Version:        0.11.2
+Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -156,6 +156,8 @@ fi
 
 
 %changelog
+* Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-1
+- updated to 0.11.2
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.10.0-3
 - Unowned directories, Resolves bz 474634
 * Thu Nov  6 2008 Tom "spot" Callaway <tcallawa@redhat.com> - 0.10.0-2
