@@ -7,7 +7,7 @@ ExcludeArch:    ppc
 
 Name:           cherokee
 Version:        0.11.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -20,7 +20,7 @@ Source2:        %{name}.logrotate
 
 BuildRequires:  openssl-devel pam-devel pcre-devel mysql-devel
 # For spawn-fcgi
-Requires:	lighttpd-fastcgi
+Requires:	    spawn-fcgi
 Requires(post): chkconfig
 Requires(preun): chkconfig
 Requires(preun): initscripts
@@ -160,6 +160,8 @@ fi
 
 
 %changelog
+* Tue Dec 30 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-4
+- Resolves bz 472749 and 472747, changed Requires: spawn-fcgi
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-3
 - ppc arch excluded only for el4
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-2
