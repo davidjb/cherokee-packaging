@@ -1,13 +1,17 @@
 %define         home %{_var}/lib/%{name}
 %define         shortversion %(echo %{version} | sed -e 's/\([0-9]*\.[0-9]*\)\.[0-9]*/\1/')
 %define         is_el4 %(if [ "%{dist}" == ".el4" ] ; then echo true ; fi)
+%define         is_el5 %(if [ "%{dist}" == ".el5" ] ; then echo true ; fi)
 %if "%{is_el4}"
+ExcludeArch:    ppc
+%endif
+%if "%{is_el5}"
 ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.11.2
-Release:        4%{?dist}
+Version:        0.11.6
+Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -160,6 +164,8 @@ fi
 
 
 %changelog
+* Tue Dec 30 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.6-1
+- Resolves bz 478488, updated to 0.11.6
 * Tue Dec 30 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-4
 - Resolves bz 472749 and 472747, changed Requires: spawn-fcgi
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-3
