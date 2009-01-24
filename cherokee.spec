@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 
 Name:           cherokee
 Version:        0.11.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -164,6 +164,8 @@ fi
 
 
 %changelog
+* Sat Jan 24 2009 Caolán McNamara <caolanm@redhat.com> - 0.11.6-2
+- rebuild for dependencies
 * Tue Dec 30 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.6-1
 - Resolves bz 478488, updated to 0.11.6
 * Tue Dec 30 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-4
