@@ -10,8 +10,8 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.11.6
-Release:        2%{?dist}
+Version:        0.98.1
+Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -136,7 +136,7 @@ fi
 # logs are written as root. no need to give perms to the cherokee user.
 %dir %{_var}/log/%{name}/
 %dir %attr(-,%{name},%{name}) %{_var}/lib/%{name}/
-%doc AUTHORS ChangeLog COPYING INSTALL README TODO
+%doc AUTHORS ChangeLog COPYING INSTALL README
 %doc %{_datadir}/doc/%{name}
 %doc %{_mandir}/man1/cget.1*
 %doc %{_mandir}/man1/cherokee.1*
@@ -164,6 +164,8 @@ fi
 
 
 %changelog
+* Mon Feb 16 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.98.1-1
+- updated to 0.98.1
 * Sat Jan 24 2009 Caolán McNamara <caolanm@redhat.com> - 0.11.6-2
 - rebuild for dependencies
 * Tue Dec 30 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.6-1
