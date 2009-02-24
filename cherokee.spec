@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 
 Name:           cherokee
 Version:        0.98.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -164,6 +164,9 @@ fi
 
 
 %changelog
+* Mon Feb 23 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.98.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
 * Mon Feb 16 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.98.1-1
 - updated to 0.98.1
 * Sat Jan 24 2009 Caolán McNamara <caolanm@redhat.com> - 0.11.6-2
