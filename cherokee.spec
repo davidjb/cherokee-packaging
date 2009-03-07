@@ -10,7 +10,7 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.98.1
+Version:        0.99.0
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -150,6 +150,7 @@ fi
 %config(noreplace) %{_var}/www/%{name}/images/cherokee-logo.png
 %config(noreplace) %{_var}/www/%{name}/images/default-bg.png
 %config(noreplace) %{_var}/www/%{name}/images/powered_by_cherokee.png
+%config(noreplace) %{_var}/www/%{name}/images/favicon.ico
 %config(noreplace) %{_var}/www/%{name}/index.html
 
 %files devel
@@ -164,6 +165,12 @@ fi
 
 
 %changelog
+* Sat Mar 07 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.0-1
+- updated to 0.99.0
+
+* Mon Feb 23 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.98.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
 * Mon Feb 16 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.98.1-1
 - updated to 0.98.1
 * Sat Jan 24 2009 Caolán McNamara <caolanm@redhat.com> - 0.11.6-2
