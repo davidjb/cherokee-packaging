@@ -10,7 +10,7 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.0
+Version:        0.99.11
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -132,6 +132,8 @@ fi
 %{_sbindir}/cherokee-worker
 %{_libdir}/%{name}
 %{_libdir}/lib%{name}-*.so.*
+%{_datadir}/locale/en/LC_MESSAGES/cherokee.mo
+%{_datadir}/locale/es/LC_MESSAGES/cherokee.mo
 %{_datadir}/%{name}
 # logs are written as root. no need to give perms to the cherokee user.
 %dir %{_var}/log/%{name}/
@@ -165,6 +167,9 @@ fi
 
 
 %changelog
+* Mon Apr 20 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.11-1
+- updated to 0.99.11
+
 * Sat Mar 07 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.0-1
 - updated to 0.99.0
 
@@ -173,27 +178,38 @@ fi
 
 * Mon Feb 16 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.98.1-1
 - updated to 0.98.1
+
 * Sat Jan 24 2009 Caolán McNamara <caolanm@redhat.com> - 0.11.6-2
 - rebuild for dependencies
+
 * Tue Dec 30 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.6-1
 - Resolves bz 478488, updated to 0.11.6
+
 * Tue Dec 30 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-4
 - Resolves bz 472749 and 472747, changed Requires: spawn-fcgi
+
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-3
 - ppc arch excluded only for el4
+
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-2
 - ppc arch excluded
+
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.11.2-1
 - updated to 0.11.2
+
 * Tue Dec 16 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.10.0-3
 - Unowned directories, Resolves bz 474634
+
 * Thu Nov  6 2008 Tom "spot" Callaway <tcallawa@redhat.com> - 0.10.0-2
 - do not package spawn-fcgi files (lighttpd-fastcgi provides them)
   Resolves bz 469947
 - get rid of rpath in compiled files
+
 * Fri Oct 31 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.10.0-1
 - updated to 0.10.0
+
 * Sun Sep 07 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.8.1-2
 - corrections in spec
+
 * Sun Sep 07 2008 Pavel Lisy <pavel.lisy@gmail.com> - 0.8.1-1
 - first build
