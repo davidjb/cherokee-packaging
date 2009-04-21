@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 
 Name:           cherokee
 Version:        0.99.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -23,6 +23,7 @@ Source1:        %{name}.init
 Source2:        %{name}.logrotate
 
 BuildRequires:  openssl-devel pam-devel pcre-devel mysql-devel
+BuildRequires:  gettext
 # For spawn-fcgi
 Requires:	    spawn-fcgi
 Requires(post): chkconfig
@@ -167,6 +168,9 @@ fi
 
 
 %changelog
+* Tue Apr 21 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.11-2
+- added BuildRequires: gettext
+
 * Mon Apr 20 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.11-1
 - updated to 0.99.11
 
