@@ -10,7 +10,7 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.11
+Version:        0.99.17
 Release:        2%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -133,8 +133,7 @@ fi
 %{_sbindir}/cherokee-worker
 %{_libdir}/%{name}
 %{_libdir}/lib%{name}-*.so.*
-%{_datadir}/locale/en/LC_MESSAGES/cherokee.mo
-%{_datadir}/locale/es/LC_MESSAGES/cherokee.mo
+%{_datadir}/locale/*/LC_MESSAGES/cherokee.mo
 %{_datadir}/%{name}
 # logs are written as root. no need to give perms to the cherokee user.
 %dir %{_var}/log/%{name}/
@@ -168,6 +167,12 @@ fi
 
 
 %changelog
+* Sun Jun 14 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.17-2
+- .spec changes in %files section
+
+* Sun Jun 14 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.17-1
+- updated to 0.99.17
+
 * Tue Apr 21 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.11-2
 - added BuildRequires: gettext
 
