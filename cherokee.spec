@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 
 Name:           cherokee
 Version:        0.99.17
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -167,6 +167,9 @@ fi
 
 
 %changelog
+* Sun Jun 14 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.17-2
+- .spec changes in %files section
+
 * Sun Jun 14 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.17-1
 - updated to 0.99.17
 
