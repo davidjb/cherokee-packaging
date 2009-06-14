@@ -10,8 +10,8 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.11
-Release:        2%{?dist}
+Version:        0.99.17
+Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -168,6 +168,9 @@ fi
 
 
 %changelog
+* Sun Jun 14 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.17-1
+- updated to 0.99.17
+
 * Tue Apr 21 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.11-2
 - added BuildRequires: gettext
 
