@@ -133,8 +133,7 @@ fi
 %{_sbindir}/cherokee-worker
 %{_libdir}/%{name}
 %{_libdir}/lib%{name}-*.so.*
-%{_datadir}/locale/en/LC_MESSAGES/cherokee.mo
-%{_datadir}/locale/es/LC_MESSAGES/cherokee.mo
+%{_datadir}/locale/*/LC_MESSAGES/cherokee.mo
 %{_datadir}/%{name}
 # logs are written as root. no need to give perms to the cherokee user.
 %dir %{_var}/log/%{name}/
