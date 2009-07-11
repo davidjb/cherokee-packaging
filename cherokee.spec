@@ -10,8 +10,8 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.17
-Release:        2%{?dist}
+Version:        0.99.20
+Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -22,7 +22,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source1:        %{name}.init
 Source2:        %{name}.logrotate
 
-BuildRequires:  openssl-devel pam-devel pcre-devel mysql-devel
+BuildRequires:  openssl-devel pam-devel mysql-devel pcre
+# BuildRequires:  pcre-devel
 BuildRequires:  gettext
 # For spawn-fcgi
 Requires:	    spawn-fcgi
@@ -167,6 +168,9 @@ fi
 
 
 %changelog
+* Sat Jul 11 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.20-1
+- updated to 0.99.20
+
 * Sun Jun 14 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.17-2
 - .spec changes in %files section
 
