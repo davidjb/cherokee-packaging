@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 
 Name:           cherokee
 Version:        0.99.20
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -168,6 +168,9 @@ fi
 
 
 %changelog
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.99.20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Sat Jul 11 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.20-1
 - updated to 0.99.20
 
