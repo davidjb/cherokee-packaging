@@ -10,8 +10,8 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.20
-Release:        3%{?dist}
+Version:        0.99.24
+Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -80,8 +80,6 @@ make install DESTDIR=%{buildroot}
             %{buildroot}%{_sysconfdir}/%{name}/cherokee.conf.perf_sample
 
 find  %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
-# put SSL certs to %{_sysconfdir}/pki/%{name}
-rmdir %{buildroot}%{_sysconfdir}/%{name}/ssl
 
 mv ChangeLog ChangeLog.iso8859-1
 chmod -x COPYING
@@ -168,6 +166,9 @@ fi
 
 
 %changelog
+* Sat Sep  5 2009 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.24-1
+- 0.99.24
+
 * Fri Aug 21 2009 Tomas Mraz <tmraz@redhat.com> - 0.99.20-3
 - rebuilt with new openssl
 
