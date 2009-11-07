@@ -1,7 +1,8 @@
 %define         home %{_var}/lib/%{name}
-%define         shortversion %(echo %{version} | sed -e 's/\([0-9]*\.[0-9]*\)\.[0-9]*/\1/')
+%define         shortversion %(echo %{version} | grep -oE '[0-9]+\.[0-9]+')
 %define         is_el4 %(if [ "%{dist}" == ".el4" ] ; then echo true ; fi)
 %define         is_el5 %(if [ "%{dist}" == ".el5" ] ; then echo true ; fi)
+
 %if "%{is_el4}"
 ExcludeArch:    ppc
 %endif
@@ -10,7 +11,7 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.24
+Version:        0.99.27
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -166,6 +167,9 @@ fi
 
 
 %changelog
+* Sat Nov 07 2009 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.27-1
+- 0.99.27
+
 * Sat Sep  5 2009 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.24-1
 - 0.99.24
 
