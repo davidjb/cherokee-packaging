@@ -1,7 +1,8 @@
 %define         home %{_var}/lib/%{name}
-%define         shortversion %(echo %{version} | sed -e 's/\([0-9]*\.[0-9]*\)\.[0-9]*/\1/')
+%define         shortversion %(echo %{version} | grep -oE '[0-9]+\.[0-9]+')
 %define         is_el4 %(if [ "%{dist}" == ".el4" ] ; then echo true ; fi)
 %define         is_el5 %(if [ "%{dist}" == ".el5" ] ; then echo true ; fi)
+
 %if "%{is_el4}"
 ExcludeArch:    ppc
 %endif
@@ -10,8 +11,8 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.17
-Release:        2%{?dist}
+Version:        0.99.27
+Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -22,7 +23,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source1:        %{name}.init
 Source2:        %{name}.logrotate
 
-BuildRequires:  openssl-devel pam-devel pcre-devel mysql-devel
+BuildRequires:  openssl-devel pam-devel mysql-devel pcre
 BuildRequires:  gettext
 # For spawn-fcgi
 Requires:	    spawn-fcgi
@@ -79,8 +80,6 @@ make install DESTDIR=%{buildroot}
             %{buildroot}%{_sysconfdir}/%{name}/cherokee.conf.perf_sample
 
 find  %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
-# put SSL certs to %{_sysconfdir}/pki/%{name}
-rmdir %{buildroot}%{_sysconfdir}/%{name}/ssl
 
 mv ChangeLog ChangeLog.iso8859-1
 chmod -x COPYING
@@ -167,6 +166,9 @@ fi
 
 
 %changelog
+* Mon Nov 09 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.27-1
+- 0.99.27
+
 * Sun Jun 14 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.17-2
 - .spec changes in %files section
 
