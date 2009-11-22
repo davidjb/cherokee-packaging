@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.27
+Version:        0.99.29
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -24,6 +24,7 @@ Source1:        %{name}.init
 Source2:        %{name}.logrotate
 
 BuildRequires:  openssl-devel pam-devel mysql-devel pcre
+# BuildRequires:  pcre-devel
 BuildRequires:  gettext
 # For spawn-fcgi
 Requires:	    spawn-fcgi
@@ -166,8 +167,23 @@ fi
 
 
 %changelog
-* Mon Nov 09 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.27-1
+* Sun Nov 22 2009 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.29-1
+- 0.99.29
+
+* Sat Nov 07 2009 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.27-1
 - 0.99.27
+
+* Sat Sep  5 2009 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.24-1
+- 0.99.24
+
+* Fri Aug 21 2009 Tomas Mraz <tmraz@redhat.com> - 0.99.20-3
+- rebuilt with new openssl
+
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.99.20-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
+* Sat Jul 11 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.20-1
+- updated to 0.99.20
 
 * Sun Jun 14 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.17-2
 - .spec changes in %files section
