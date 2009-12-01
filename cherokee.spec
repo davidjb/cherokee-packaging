@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.29
+Version:        0.99.30
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -27,8 +27,8 @@ BuildRequires:  openssl-devel pam-devel mysql-devel pcre
 # BuildRequires:  pcre-devel
 BuildRequires:  gettext
 # For spawn-fcgi
-Requires:	    spawn-fcgi
-Requires(post): chkconfig
+Requires:	 spawn-fcgi
+Requires(post):  chkconfig
 Requires(preun): chkconfig
 Requires(preun): initscripts
 
@@ -167,6 +167,9 @@ fi
 
 
 %changelog
+* Tue Dec  1 2009 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.30-1
+- 0.99.30
+
 * Sun Nov 22 2009 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.29-1
 - 0.99.29
 
