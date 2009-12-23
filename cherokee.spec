@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.31
+Version:        0.99.37
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -167,6 +167,9 @@ fi
 
 
 %changelog
+* Wed Dec 23 2009 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.37-1
+- 0.99.37
+
 * Thu Dec  3 2009 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.31-1
 - New upstream release: 0.99.31
 
