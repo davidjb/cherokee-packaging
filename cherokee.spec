@@ -11,8 +11,8 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.39
-Release:        1%{?dist}
+Version:        0.99.42
+Release:        0%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -167,6 +167,29 @@ fi
 
 
 %changelog
+* Tue Feb 2 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.42-1
+- 0.99.42
+- Compilation and last-minute fixes
+- NEW: POST managing subsystem has been rewritten from scratch
+- NEW: New POST (uploads) status reporting mechanism
+- NEW: Rules can be configured to forbid the use of certain encoders
+- NEW: Custom logger: Adds ${response_size} support
+- FIX: File descriptor leak fixed in the HTTP reverse proxy
+- FIX: Error pages with UTF8 encoded errors work now
+- FIX: Safer file descriptor closing
+- FIX: getpwuid_r() detection
+- FIX: Original query strings (and requests) are logged now
+- FIX: Misc cherokee-admin fixes
+- FIX: uWSCGI: Endianess fixes and protocol modifiers
+- FIX: Chinese translation updated
+- FIX: Cherokee-admin: Display custom error if the doc. is missing
+- FIX: Early logging support is not supported any longer
+- FIX: QA and Cherokee-Admin: Bumps PySCGI to version 1.11
+- FIX: The 'fastcgi' handler has been deprecated in favor of 'fcgi'
+- FIX: PATH_INFO generation on merging non-final rules (corner case)
+- DOC: Installation updated
+
+
 * Tue Dec 29 2009 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.39-1
 - 0.99.39
 
