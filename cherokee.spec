@@ -11,8 +11,8 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.42
-Release:        0%{?dist}
+Version:        0.99.43
+Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -167,6 +167,18 @@ fi
 
 
 %changelog
+* Thu Mar 18 2010 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.43-1
+- 0.99.43
+- FIX: Performance related regression (Keep-alive w/o cache)
+- FIX: Better lingering close
+- FIX: PAM authentication module fixes: threading issue
+- FIX: Cherokee-admin supports IPv6 by default
+- FIX: Parsing IPv6 addresses in "allow from" restrictions
+- FIX: Rule OR is slightly faster now
+- FIX: Fixes a few accessibility issues in cherokee-admin
+- FIX: Symfony wizard, fixed to use the new paths
+- suppressed confusing output from init script
+
 * Tue Feb 2 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.42-1
 - 0.99.42
 - Compilation and last-minute fixes
@@ -188,7 +200,6 @@ fi
 - FIX: The 'fastcgi' handler has been deprecated in favor of 'fcgi'
 - FIX: PATH_INFO generation on merging non-final rules (corner case)
 - DOC: Installation updated
-
 
 * Tue Dec 29 2009 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.39-1
 - 0.99.39
