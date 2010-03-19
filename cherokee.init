@@ -37,10 +37,10 @@ case "$1" in
                 exit $RETVAL
         fi
         echo -n "Starting Cherokee service: "
-        $BASE -C $CONF $DAEMON pidfile $PIDFILE
-        sleep 1
-        action "" /sbin/pidof $NAME
+        $BASE --config=$CONF $DAEMON pidfile $PIDFILE >&/dev/null
+	/sbin/pidof $NAME >&/dev/null && success || failure 
         RETVAL=$?
+        echo
         [ $RETVAL -eq 0 ] && touch /var/lock/subsys/cherokee
         ;;
   stop)
