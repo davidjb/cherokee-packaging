@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.43
+Version:        0.99.44
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -167,6 +167,15 @@ fi
 
 
 %changelog
+* Fri Apr 23 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.44-1
+- FIX: Large POST support bug fixed
+- FIX: UTF-8 requests bug fixed
+- FIX: 7z MIME-type
+- FIX: Added missing HTTP response codes
+- FIX: Added missing HTTP methods
+- FIX: Many documentation typos fixed
+- I18N: Dutch translation updated
+
 * Thu Mar 18 2010 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.43-1
 - 0.99.43
 - FIX: Performance related regression (Keep-alive w/o cache)
