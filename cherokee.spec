@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.43
+Version:        0.99.49
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -167,6 +167,42 @@ fi
 
 
 %changelog
+* Wed May  5 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.49-1
+- Changes since 0.99.44:
+- New cherokee-admin (rewritten from scratch)
+- FIX: Reverse proxy bug
+- FIX: Handler init bug: crashed on ARM
+- FIX: Adds missing HTTP methods
+- FIX: PTHREAD_RWLOCK_INITIALIZER usage
+- FIX: uWSGI paths bug
+- FIX: WordPress wizard bug
+- FIX: Safer (synchronous) cherokee-admin start
+- FIX: Keep-alive related bug
+- FIX: Error log management has been fixed
+- FIX: Re-integrates the phpMyAdmin wizard
+- FIX: Cherokee-admin default timeout increased
+- FIX: Wordpress wizard
+- FIX: Flags in the GeoIP plug-in
+- FIX: LOCK method detection
+- FIX: upgrade_config.py was broken
+- I18n: Chinese translation updated
+- I18n: New translation to Polish
+- I18n: Spanish translation updated
+- I18n: Dutch translation updated
+- DOC: Improves Server Info handler documentation
+- DOC: Many documentation updates
+- DOC: New screenshots
+- DOC: PHP recipe improved
+
+* Fri Apr 23 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.44-1
+- FIX: Large POST support bug fixed
+- FIX: UTF-8 requests bug fixed
+- FIX: 7z MIME-type
+- FIX: Added missing HTTP response codes
+- FIX: Added missing HTTP methods
+- FIX: Many documentation typos fixed
+- I18N: Dutch translation updated
+
 * Thu Mar 18 2010 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.43-1
 - 0.99.43
 - FIX: Performance related regression (Keep-alive w/o cache)
