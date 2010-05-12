@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.49
+Version:        1.0.0
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -167,6 +167,9 @@ fi
 
 
 %changelog
+* Wed May 12 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 1.0.0-1
+- First stable release
+
 * Wed May  5 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.49-1
 - Changes since 0.99.44:
 - New cherokee-admin (rewritten from scratch)
