@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        0.99.49
+Version:        1.0.4
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -167,6 +167,54 @@ fi
 
 
 %changelog
+* Mon Jun 28 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 1.0.4-1
+- Relevant changes since 1.0.0
+- OLD: Dropped support for RFC 2817.
+- NEW: MediaWiki wizard
+- NEW: PHP wizard for Virtual Servers
+- FIX: Fixes a regression in the SSL/TLS support
+- FIX: Shorter SSL session names
+- FIX: Content-Range management issue
+- FIX: Content-Type (max-age) management issue fixed
+- FIX: Better 'IPv6 is missing' report
+- FIX: RRD for VServers with spaces in the name
+- FIX: admin, Fixes uWSGI wizard
+- FIX: admin, Adds extra path to find php-fpm
+- FIX: admin, Fixes the Static content wizard
+- FIX: admin, Fixes issue with the RoR wizard
+- FIX: admin, Validation of executable files
+- FIX: HTTP error codes bug
+- FIX: Auth headers are added from error pages if needed
+- FIX: Better fd limit management
+- FIX: Duplicated Cache-Control header
+- FIX: Safer TLS/SSL close.
+- FIX: Trac wizard checking bug.
+- FIX: NCSA/Combined log invalid length.
+- FIX: Better inter-wizard dependencies management
+- FIX: PID file management fix
+- FIX: PHP wizard create functional vservers now
+- FIX: Add WebM MIME types
+- FIX: Admin, rule table style improved
+- FIX: Reordering for vservers and rules
+- FIX: Joomla wizard
+- FIX: Validation for incoming ports/interfaces
+- FIX: Regression: Document root can be defined per-rule
+- FIX: 'Broken installation detected' error improved
+- FIX: Handler common parameters work again
+- FIX: PHP-fpm detection
+- FIX: Better list validations
+- FIX: File exists issue
+- DOC: Various updates
+- I18n: Spanish translation updated
+- I18n: Brazilian Portuguese translation updated
+- I18n: Polish updated
+- I18n: Dutch updated
+- I18n: New translation to Catalan
+
+
+* Wed May 12 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 1.0.0-1
+- First stable release
+
 * Wed May  5 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 0.99.49-1
 - Changes since 0.99.44:
 - New cherokee-admin (rewritten from scratch)
