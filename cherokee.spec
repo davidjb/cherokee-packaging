@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        1.0.4
+Version:        1.0.6
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -31,6 +31,8 @@ Requires:	 spawn-fcgi
 Requires(post):  chkconfig
 Requires(preun): chkconfig
 Requires(preun): initscripts
+
+Provides: webserver
 
 %description
 Cherokee is a very fast, flexible and easy to configure Web Server. It supports
@@ -167,6 +169,29 @@ fi
 
 
 %changelog
+* Fri Aug 6 2010 lvillani <lvillani@enterprise.binaryhelix.net> 1.0.6-1
+- Relevant changes since 1.0.4
+- NEW: Much better UTF-8 encoding
+- NEW: Templates support slicing now (as in Python str)
+- NEW: 'TLS/SSL' matching rule
+- NEW: Reverse HTTP proxy can overwrite "Expire:" entries
+- NEW: Redirection handler support the ${host} macro now
+- FIX: POST support in the HTTP reverse proxy
+- FIX: Some SSL/TLS were fixed. [unfinished]
+- FIX: X-Forwarded-For parsing bug fixed
+- FIX: Better php-fpm support in the PHP wizard
+- FIX: Bundled PySCGI bumped to 1.14
+- FIX: Random 100% CPU usage
+- FIX: POST management regression in the proxy
+- FIX: Connection RST/WAIT_FIN related fixes
+- FIX: Dirlist bugfix: symbolic links handling
+- FIX: POST status report bug-fixes
+- DOC: Documentation updates
+- i18n: Spanish translation updated
+- i18n: Dutch translation updated
+- i18n: Polish translation updated
+- i18n: German translation updated
+
 * Mon Jun 28 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 1.0.4-1
 - Relevant changes since 1.0.0
 - OLD: Dropped support for RFC 2817.
@@ -210,7 +235,6 @@ fi
 - I18n: Polish updated
 - I18n: Dutch updated
 - I18n: New translation to Catalan
-
 
 * Wed May 12 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 1.0.0-1
 - First stable release
