@@ -11,7 +11,7 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        1.0.6
+Version:        1.0.8
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -22,6 +22,9 @@ Source0:        http://www.cherokee-project.com/download/%{shortversion}/%{versi
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source1:        %{name}.init
 Source2:        %{name}.logrotate
+
+# Drop privileges to cherokee:cherokee after startup
+Patch0: 01-drop-privileges.patch
 
 BuildRequires:  openssl-devel pam-devel mysql-devel pcre
 # BuildRequires:  pcre-devel
@@ -55,6 +58,7 @@ This package holds the development files for cherokee.
 
 %prep
 %setup -q
+%patch0 -p1 -b .privs
 
 %build
 %configure --with-wwwroot=%{_var}/www/%{name} --enable-tls=openssl --enable-pthreads --enable-trace --disable-static --disable-rpath
@@ -81,6 +85,9 @@ make install DESTDIR=%{buildroot}
 %{__sed} -i -e 's#log/%{name}\.access#log/%{name}/access_log#' \
             -e 's#log/%{name}\.error#log/%{name}/error_log#' \
             %{buildroot}%{_sysconfdir}/%{name}/cherokee.conf.perf_sample
+
+touch %{buildroot}%{_var}/log/%{name}/access_log \
+      %{buildroot}%{_var}/log/%{name}/error_log
 
 find  %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 
@@ -137,8 +144,11 @@ fi
 %{_libdir}/lib%{name}-*.so.*
 %{_datadir}/locale/*/LC_MESSAGES/cherokee.mo
 %{_datadir}/%{name}
-# logs are written as root. no need to give perms to the cherokee user.
 %dir %{_var}/log/%{name}/
+# Since we drop privileges to cherokee:cherokee, change permissions on these
+# log files.
+%attr (-,%{name},%{name}) %{_var}/log/%{name}/error_log
+%attr (-,%{name},%{name}) %{_var}/log/%{name}/access_log
 %dir %attr(-,%{name},%{name}) %{_var}/lib/%{name}/
 %doc AUTHORS ChangeLog COPYING INSTALL README
 %doc %{_datadir}/doc/%{name}
@@ -169,7 +179,25 @@ fi
 
 
 %changelog
-* Fri Aug 6 2010 lvillani <lvillani@enterprise.binaryhelix.net> 1.0.6-1
+* Sun Aug 29 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 1.0.8-1
+- New upstream release (1.0.8)
+- Init script overhaul
+- Relevant changes since 1.0.6:
+- NEW: Enhanced 'Header' rule match
+- NEW: Improved extensions rule
+- FIX: SSL/TLS works with Firefox again
+- FIX: Better SSL/TLS connection close
+- FIX: Range requests work better now
+- FIX: Hot-linking wizard w/o Referer
+- FIX: Hot-linking wizard usability
+- FIX: Minor CSS fix in the default dirlist theme
+- FIX: POST management issue
+- FIX: PHP wizard, better configuration
+- FIX: admin, unresponsive button
+- DOC: Misc improvements
+- i18n: French translation updated
+
+* Fri Aug 6 2010 Lorenzo Villani <lvillani@enterprise.binaryhelix.net> 1.0.6-1
 - Relevant changes since 1.0.4
 - NEW: Much better UTF-8 encoding
 - NEW: Templates support slicing now (as in Python str)
