@@ -1,68 +1,114 @@
 #!/bin/sh
 #
-# cherokee       Startup script for the Apache HTTP Server
+# cherokee       Startup script for the Cherokee web server.
 #
 # chkconfig:     - 95 05
-# description:   Cherokee is ligth Web Server system
-# config:        /etc/cherokee/cherokee.conf
-# pidfile:       /var/run/cherokee.pid
-# Default-Start: 345
+# description:   Cherokee is lightweight web server.
 #
 
-# Source function library
+### BEGIN INIT INFO
+# Provides:
+# Required-Start:
+# Required-Stop:
+# Should-Start:
+# Should-Stop:
+# Default-Start: 3 4 5
+# Default-Stop:
+# Short-Description:
+# Description:
+### END INIT INFO
+
+# Source function library.
 . /etc/rc.d/init.d/functions
 
-NAME=cherokee
-BASE=/usr/sbin/$NAME
-DAEMON="-d"
-CONF="/etc/cherokee/cherokee.conf"
-PIDFILE="/var/run/$NAME.pid"
+exec="/usr/sbin/cherokee"
+prog="cherokee"
+config="/etc/cherokee/cherokee.conf"
+pidfile="/var/run/cherokee.pid"
 
-# Check that $BASE exists.
-[ -f $BASE ] || exit 0
+# [ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
 
-# Source networking configuration.
+# No network? No cherokee.
 . /etc/sysconfig/network
-
-# Check that networking is up.
 [ ${NETWORKING} = "no" ] && exit 0
 
-RETVAL=0
-# See how we were called.
+lockfile=/var/lock/subsys/$prog
+
+start() {
+    [ -x $exec ] || exit 5
+    [ -f $config ] || exit 6
+    echo -n $"Starting $prog: "
+    daemon --pidfile $pidfile $exec -d -C $config
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && touch $lockfile
+    return $retval
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc -p $pidfile $prog
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && rm -f $lockfile
+    return $retval
+}
+
+restart() {
+    stop
+    start
+}
+
+reload() {
+    echo -n $"Reloading $prog: "
+    killproc -p $pidfile $prog -HUP
+    retval=$?
+    echo
+    return $retval
+}
+
+force_reload() {
+    restart
+}
+
+rh_status() {
+    # run checks to determine if the service is running or use generic status
+    status $prog
+}
+
+rh_status_q() {
+    rh_status >/dev/null 2>&1
+}
+
+
 case "$1" in
-  start)
-        if [ -n "`/sbin/pidof $NAME`" ]; then
-                echo -n $"$NAME: already running"
-                echo ""
-                exit $RETVAL
-        fi
-        echo -n "Starting Cherokee service: "
-        $BASE --config=$CONF $DAEMON pidfile $PIDFILE >&/dev/null
-	/sbin/pidof $NAME >&/dev/null && success || failure 
-        RETVAL=$?
-        echo
-        [ $RETVAL -eq 0 ] && touch /var/lock/subsys/cherokee
+    start)
+        rh_status_q && exit 0
+        $1
         ;;
-  stop)
-        echo -n "Shutting down Cherokee service: "
-        killproc $BASE
-        RETVAL=$?
-        echo
-        [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/cherokee
+    stop)
+        rh_status_q || exit 0
+        $1
         ;;
-  restart|reload)
-        $0 stop
-        $0 start
-        RETVAL=$?
+    restart)
+        $1
         ;;
-  status)
-        status $BASE
-        RETVAL=$?
+    reload)
+        rh_status_q || exit 7
+        $1
         ;;
-  *)
-        echo "Usage: $NAME {start|stop|restart|reload|status}"
-        exit 1
+    force-reload)
+        force_reload
+        ;;
+    status)
+        rh_status
+        ;;
+    condrestart|try-restart)
+        rh_status_q || exit 0
+        restart
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload}"
+        exit 2
 esac
-
-exit $RETVAL
-
+exit $?
