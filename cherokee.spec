@@ -12,7 +12,7 @@ ExcludeArch:    ppc
 
 Name:           cherokee
 Version:        1.0.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -30,7 +30,7 @@ BuildRequires:  openssl-devel pam-devel mysql-devel pcre
 # BuildRequires:  pcre-devel
 BuildRequires:  gettext
 # For spawn-fcgi
-Requires:	 spawn-fcgi
+Requires:        spawn-fcgi
 Requires(post):  chkconfig
 Requires(preun): chkconfig
 Requires(preun): initscripts
@@ -157,7 +157,7 @@ fi
 %doc %{_mandir}/man1/cherokee-tweak.1*
 %doc %{_mandir}/man1/cherokee-admin.1*
 %doc %{_mandir}/man1/cherokee-worker.1*
-# %%doc %{_mandir}/man1/spawn-fcgi.1*
+# doc {_mandir}/man1/spawn-fcgi.1*
 %dir %{_var}/www/
 %dir %{_var}/www/%{name}/
 %dir %{_var}/www/%{name}/images/
@@ -179,6 +179,10 @@ fi
 
 
 %changelog
+* Wed Sep  1 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 1.0.8-2
+- Merge changes to cherokee.init from Pavel Lisý (hide cherokee's
+  stdout messages)
+
 * Sun Aug 29 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 1.0.8-1
 - New upstream release (1.0.8)
 - Init script overhaul
@@ -371,7 +375,7 @@ fi
 - updated to 0.99.20
 
 * Sun Jun 14 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.17-2
-- .spec changes in %files section
+- .spec changes in files section
 
 * Sun Jun 14 2009 Pavel Lisy <pavel.lisy@gmail.com> - 0.99.17-1
 - updated to 0.99.17
