@@ -38,7 +38,7 @@ start() {
     [ -x $exec ] || exit 5
     [ -f $config ] || exit 6
     echo -n $"Starting $prog: "
-    daemon --pidfile $pidfile $exec -d -C $config
+    daemon --pidfile $pidfile $exec -d -C $config >&/dev/null && success || failure
     retval=$?
     echo
     [ $retval -eq 0 ] && touch $lockfile
@@ -47,7 +47,7 @@ start() {
 
 stop() {
     echo -n $"Stopping $prog: "
-    killproc -p $pidfile $prog
+    killproc -p $pidfile $prog 2>/dev/null && success || failure
     retval=$?
     echo
     [ $retval -eq 0 ] && rm -f $lockfile
