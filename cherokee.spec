@@ -12,7 +12,7 @@ ExcludeArch:    ppc
 
 Name:           cherokee
 Version:        1.0.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -179,6 +179,9 @@ fi
 
 
 %changelog
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Wed Sep  1 2010 Lorenzo Villani <lvillani@binaryhelix.net> - 1.0.8-2
 - Merge changes to cherokee.init from Pavel Lisý (hide cherokee's
   stdout messages)
