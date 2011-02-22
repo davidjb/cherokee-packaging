@@ -1,18 +1,9 @@
 %define         home %{_var}/lib/%{name}
 %define         shortversion %(echo %{version} | grep -oE '[0-9]+\.[0-9]+')
-%define         is_el4 %(if [ "%{dist}" == ".el4" ] ; then echo true ; fi)
-%define         is_el5 %(if [ "%{dist}" == ".el5" ] ; then echo true ; fi)
-
-%if "%{is_el4}"
-ExcludeArch:    ppc
-%endif
-%if "%{is_el5}"
-ExcludeArch:    ppc
-%endif
 
 Name:           cherokee
 Version:        1.0.20
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -80,7 +71,7 @@ make install DESTDIR=%{buildroot}
 %{__install} -d %{buildroot}%{_var}/{log,lib}/%{name}/
 %{__install} -d %{buildroot}%{_sysconfdir}/pki/%{name}
 %{__install} -d %{buildroot}%{_sysconfdir}/systemd/system
-%{__install} -D -m 0644 %{SOURCE3}   %{buildroot}%{_sysconfdir}/systemd/system/
+%{__install} -D -m 0644 %{SOURCE3}   %{buildroot}%{_sysconfdir}/systemd/system/%{name}.service
 
 %{__sed} -i -e 's#log/%{name}\.access#log/%{name}/access_log#' \
             -e 's#log/%{name}\.error#log/%{name}/error_log#' \
@@ -187,6 +178,12 @@ fi
 
 
 %changelog
+* Tue Feb 22 2011 Pavel Lisý <pali@fedoraproject.org> - 1.0.20-3
+- reenabled ppc build for el4/el5
+
+* Tue Feb 22 2011 Pavel Lisý <pali@fedoraproject.org> - 1.0.20-2
+- .spec corrections for el4
+
 * Tue Feb 22 2011 Pavel Lisý <pali@fedoraproject.org> - 1.0.20-1
 - Latest 1.0.x upstream release (1.0.20)
 - Resolves bz 657085
