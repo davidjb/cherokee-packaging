@@ -11,8 +11,8 @@ ExcludeArch:    ppc
 %endif
 
 Name:           cherokee
-Version:        1.0.8
-Release:        3%{?dist}
+Version:        1.0.20
+Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -22,6 +22,7 @@ Source0:        http://www.cherokee-project.com/download/%{shortversion}/%{versi
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source1:        %{name}.init
 Source2:        %{name}.logrotate
+Source3:        %{name}.service
 
 # Drop privileges to cherokee:cherokee after startup
 Patch0: 01-drop-privileges.patch
@@ -78,6 +79,8 @@ make install DESTDIR=%{buildroot}
 %{__install} -D -m 0644 %{SOURCE2}   %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 %{__install} -d %{buildroot}%{_var}/{log,lib}/%{name}/
 %{__install} -d %{buildroot}%{_sysconfdir}/pki/%{name}
+%{__install} -d %{buildroot}%{_sysconfdir}/systemd/system
+%{__install} -D -m 0644 %{SOURCE3}   %{buildroot}%{_sysconfdir}/systemd/system/
 
 %{__sed} -i -e 's#log/%{name}\.access#log/%{name}/access_log#' \
             -e 's#log/%{name}\.error#log/%{name}/error_log#' \
@@ -127,6 +130,7 @@ fi
 %files
 %defattr(-,root,root,-)
 %{_sysconfdir}/init.d/%{name}
+%{_sysconfdir}/systemd/system/%{name}.service
 %dir %{_sysconfdir}/%{name}
 %dir %{_sysconfdir}/pki/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/cherokee.conf
@@ -136,6 +140,9 @@ fi
 %{_bindir}/cget
 %{_bindir}/cherokee-panic
 %{_bindir}/cherokee-tweak
+%{_bindir}/cherokee-admin-launcher
+%{_bindir}/cherokee-macos-askpass
+%{_bindir}/CTK-run
 # %%{_bindir}/spawn-fcgi
 %{_sbindir}/cherokee
 %{_sbindir}/cherokee-admin
@@ -144,9 +151,9 @@ fi
 %{_libdir}/lib%{name}-*.so.*
 %{_datadir}/locale/*/LC_MESSAGES/cherokee.mo
 %{_datadir}/%{name}
-%dir %{_var}/log/%{name}/
-# Since we drop privileges to cherokee:cherokee, change permissions on these
+## Since we drop privileges to cherokee:cherokee, change permissions on these
 # log files.
+%dir %attr(-,%{name},%{name}) %{_var}/log/%{name}/
 %attr (-,%{name},%{name}) %{_var}/log/%{name}/error_log
 %attr (-,%{name},%{name}) %{_var}/log/%{name}/access_log
 %dir %attr(-,%{name},%{name}) %{_var}/lib/%{name}/
@@ -157,6 +164,7 @@ fi
 %doc %{_mandir}/man1/cherokee-tweak.1*
 %doc %{_mandir}/man1/cherokee-admin.1*
 %doc %{_mandir}/man1/cherokee-worker.1*
+%doc %{_mandir}/man1/cherokee-admin-launcher.1*
 # doc {_mandir}/man1/spawn-fcgi.1*
 %dir %{_var}/www/
 %dir %{_var}/www/%{name}/
@@ -179,6 +187,11 @@ fi
 
 
 %changelog
+* Tue Feb 22 2011 Pavel Lisý <pali@fedoraproject.org> - 1.0.20-1
+- Latest 1.0.x upstream release (1.0.20)
+- Resolves bz 657085
+- Resolves bz 678237
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.8-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
