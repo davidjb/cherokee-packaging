@@ -1,7 +1,5 @@
 %define         home %{_var}/lib/%{name}
 %define         shortversion %(echo %{version} | grep -oE '[0-9]+\.[0-9]+')
-%define         is_el4 %(if [ "%{dist}" == ".el4" ] ; then echo true ; fi)
-%define         is_el5 %(if [ "%{dist}" == ".el5" ] ; then echo true ; fi)
 
 Name:           cherokee
 Version:        1.0.20
