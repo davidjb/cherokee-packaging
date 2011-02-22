@@ -3,16 +3,9 @@
 %define         is_el4 %(if [ "%{dist}" == ".el4" ] ; then echo true ; fi)
 %define         is_el5 %(if [ "%{dist}" == ".el5" ] ; then echo true ; fi)
 
-%if "%{is_el4}"
-ExcludeArch:    ppc
-%endif
-%if "%{is_el5}"
-ExcludeArch:    ppc
-%endif
-
 Name:           cherokee
 Version:        1.0.20
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -187,6 +180,9 @@ fi
 
 
 %changelog
+* Tue Feb 22 2011 Pavel Lisý <pali@fedoraproject.org> - 1.0.20-3
+- reenabled ppc build for el4/el5
+
 * Tue Feb 22 2011 Pavel Lisý <pali@fedoraproject.org> - 1.0.20-2
 - .spec corrections for el4
 
