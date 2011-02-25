@@ -2,8 +2,8 @@
 %define         shortversion %(echo %{version} | grep -oE '[0-9]+\.[0-9]+')
 
 Name:           cherokee
-Version:        1.0.20
-Release:        3%{?dist}
+Version:        1.2.1
+Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -124,8 +124,8 @@ fi
 %{_sysconfdir}/systemd/system/%{name}.service
 %dir %{_sysconfdir}/%{name}
 %dir %{_sysconfdir}/pki/%{name}
-%config(noreplace) %{_sysconfdir}/%{name}/cherokee.conf
-%config(noreplace) %{_sysconfdir}/%{name}/cherokee.conf.perf_sample
+%attr(0644,%{name},%{name}) %config(noreplace) %{_sysconfdir}/%{name}/cherokee.conf
+%attr(0644,%{name},%{name}) %config(noreplace) %{_sysconfdir}/%{name}/cherokee.conf.perf_sample
 %config(noreplace) %{_sysconfdir}/pam.d/%{name}
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_bindir}/cget
@@ -144,10 +144,10 @@ fi
 %{_datadir}/%{name}
 ## Since we drop privileges to cherokee:cherokee, change permissions on these
 # log files.
-%dir %attr(-,%{name},%{name}) %{_var}/log/%{name}/
-%attr (-,%{name},%{name}) %{_var}/log/%{name}/error_log
-%attr (-,%{name},%{name}) %{_var}/log/%{name}/access_log
-%dir %attr(-,%{name},%{name}) %{_var}/lib/%{name}/
+%attr(-,%{name},%{name}) %dir %{_var}/log/%{name}/
+%attr(-,%{name},%{name}) %{_var}/log/%{name}/error_log
+%attr(-,%{name},%{name}) %{_var}/log/%{name}/access_log
+%attr(-,%{name},%{name}) %dir %{_var}/lib/%{name}/
 %doc AUTHORS ChangeLog COPYING INSTALL README
 %doc %{_datadir}/doc/%{name}
 %doc %{_mandir}/man1/cget.1*
@@ -178,6 +178,15 @@ fi
 
 
 %changelog
+* Fri Feb 22 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.1-1
+- Resolves bz 678243
+- Resolves bz 680051
+- Resolves bz 678838 (EPEL)
+- Resolves bz 622514 (EPEL)
+
+* Fri Feb 22 2011 Pavel Lisý <pali@fedoraproject.org> - 1.0.20-4
+- Resolves bz 570317
+
 * Tue Feb 22 2011 Pavel Lisý <pali@fedoraproject.org> - 1.0.20-3
 - reenabled ppc build for el4/el5
 
