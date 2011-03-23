@@ -3,7 +3,7 @@
 
 Name:           cherokee
 Version:        1.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -178,6 +178,9 @@ fi
 
 
 %changelog
+* Wed Mar 23 2011 Dan Horák <dan@danny.cz> - 1.2.1-2
+- rebuilt for mysql 5.5.10 (soname bump in libmysqlclient)
+
 * Fri Feb 22 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.1-1
 - Resolves bz 678243
 - Resolves bz 680051
