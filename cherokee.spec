@@ -244,7 +244,7 @@ fi
 %{_libdir}/lib%{name}-*.so
 
 %changelog
-* Tue Sep 10 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.99-1
+* Sat Sep 10 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.99-1
 - Latest 1.2.x upstream release
 - Resolves bz 713306
 - Resolves bz 710473
