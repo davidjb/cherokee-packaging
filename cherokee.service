@@ -1,9 +1,10 @@
 [Unit]
-Description=Cherokee web server
+Description=Cherokee Lightweight Web Server
 After=syslog.target network.target
 
 [Service]
 Type=forking
+PIDFile=/var/run/cherokee
 ExecStart=/usr/sbin/cherokee -d -C /etc/cherokee/cherokee.conf
 
 [Install]
