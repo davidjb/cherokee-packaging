@@ -1,8 +1,10 @@
 %define         home %{_var}/lib/%{name}
 %define         shortversion %(echo %{version} | grep -oE '[0-9]+\.[0-9]+')
+%define         opensslversion 1.0.0d
+%{!?_unitdir:%define _unitdir /lib/systemd/system}
 
 Name:           cherokee
-Version:        1.2.1
+Version:        1.2.99
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -14,18 +16,29 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source1:        %{name}.init
 Source2:        %{name}.logrotate
 Source3:        %{name}.service
+%if "%{dist}" == ".el5"
+Source100:      http://www.openssl.org/source/openssl-%{opensslversion}.tar.gz
+%endif
 
 # Drop privileges to cherokee:cherokee after startup
 Patch0: 01-drop-privileges.patch
 
-BuildRequires:  openssl-devel pam-devel mysql-devel pcre
+BuildRequires:  pam-devel mysql-devel pcre
+BuildRequires:  php-cli GeoIP-devel openldap-devel
 # BuildRequires:  pcre-devel
 BuildRequires:  gettext
 # For spawn-fcgi
 Requires:        spawn-fcgi
+
+%if "%{dist}" == ".f15" || "%{dist}" == ".f16"
+Requires(post): systemd-units
+Requires(preun): systemd-units
+Requires(postun): systemd-units
+%else
 Requires(post):  chkconfig
 Requires(preun): chkconfig
 Requires(preun): initscripts
+%endif
 
 Provides: webserver
 
@@ -49,11 +62,34 @@ This package holds the development files for cherokee.
 
 
 %prep
+%if "%{dist}" == ".el5"
+%setup -q -a 100
+%else
 %setup -q
+%endif
 %patch0 -p1 -b .privs
 
 %build
-%configure --with-wwwroot=%{_var}/www/%{name} --enable-tls=openssl --enable-pthreads --enable-trace --disable-static --disable-rpath
+%if "%{dist}" == ".el5"
+pushd openssl-%{opensslversion}
+./config --prefix=/usr --openssldir=%{_sysconfdir}/pki/tls shared
+RPM_OPT_FLAGS="$RPM_OPT_FLAGS -Wa,--noexecstack"
+make depend
+make all
+mkdir ./lib
+for lib in *.a ; do
+  ln -s ../$lib ./lib
+done
+popd
+%endif
+
+%configure --with-wwwroot=%{_var}/www/%{name} \
+%if "%{dist}" == ".el5"
+   --with-libssl=$(pwd)/openssl-%{opensslversion} --enable-static-module=libssl \
+%else
+   --with-libssl \
+%endif
+   --enable-trace --enable-backtraces --disable-static
 # Get rid of rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -66,12 +102,15 @@ make install DESTDIR=%{buildroot}
 
 %{__install} -d %{buildroot}%{_sysconfdir}/logrotate.d/
 %{__install} -D -m 0644 pam.d_cherokee %{buildroot}%{_sysconfdir}/pam.d/%{name}
-%{__install} -D -m 0755 %{SOURCE1}   %{buildroot}%{_sysconfdir}/init.d/%{name}
 %{__install} -D -m 0644 %{SOURCE2}   %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 %{__install} -d %{buildroot}%{_var}/{log,lib}/%{name}/
 %{__install} -d %{buildroot}%{_sysconfdir}/pki/%{name}
-%{__install} -d %{buildroot}%{_sysconfdir}/systemd/system
-%{__install} -D -m 0644 %{SOURCE3}   %{buildroot}%{_sysconfdir}/systemd/system/%{name}.service
+%if "%{dist}" == ".f15" || "%{dist}" == ".f16"
+%{__install} -d %{buildroot}%{_unitdir}
+%{__install} -D -m 0644 %{SOURCE3}   %{buildroot}%{_unitdir}/%{name}.service
+%else
+%{__install} -D -m 0755 %{SOURCE1}   %{buildroot}%{_sysconfdir}/init.d/%{name}
+%endif
 
 %{__sed} -i -e 's#log/%{name}\.access#log/%{name}/access_log#' \
             -e 's#log/%{name}\.error#log/%{name}/error_log#' \
@@ -113,15 +152,43 @@ if [ $1 = 0 ] ; then
 fi
 
 %post
+%if "%{dist}" == ".f15" || "%{dist}" == ".f16"
+if [ $1 -eq 1 ] ; then 
+    # Initial installation: enabled by default
+    /bin/systemctl enable cherokee.service >/dev/null 2>&1 || :
+fi
+%else
 /sbin/ldconfig
 /sbin/chkconfig --add %{name}
+%endif
 
-%postun -p /sbin/ldconfig
+%if "%{dist}" == ".f15" || "%{dist}" == ".f16"
+%preun
+if [ $1 -eq 0 ] ; then
+    # Package removal, not upgrade
+    /bin/systemctl --no-reload disable cherokee.service > /dev/null 2>&1 || :
+    /bin/systemctl stop cherokee.service > /dev/null 2>&1 || :
+fi
+%endif
+
+%postun
+%if "%{dist}" == ".f15" || "%{dist}" == ".f16"
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    /bin/systemctl try-restart cherokee.service >/dev/null 2>&1 || :
+fi
+%else
+/sbin/ldconfig
+%endif
 
 %files
 %defattr(-,root,root,-)
+%if "%{dist}" == ".f15" || "%{dist}" == ".f16"
+%{_unitdir}/%{name}.service
+%else
 %{_sysconfdir}/init.d/%{name}
-%{_sysconfdir}/systemd/system/%{name}.service
+%endif
 %dir %{_sysconfdir}/%{name}
 %dir %{_sysconfdir}/pki/%{name}
 %attr(0644,%{name},%{name}) %config(noreplace) %{_sysconfdir}/%{name}/cherokee.conf
@@ -176,8 +243,19 @@ fi
 %{_datadir}/aclocal/%{name}.m4
 %{_libdir}/lib%{name}-*.so
 
-
 %changelog
+* Tue Sep 10 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.99-1
+- Latest 1.2.x upstream release
+- Resolves bz 713306
+- Resolves bz 710473
+- Resolves bz 728741
+- Resolves bz 720515
+- Resolves bz 701196
+- Resolves bz 712555
+
+* Wed Aug 10 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.98-1
+- Latest 1.2.x upstream release
+
 * Fri Feb 22 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.1-1
 - Resolves bz 678243
 - Resolves bz 680051
