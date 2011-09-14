@@ -5,7 +5,7 @@
 
 Name:           cherokee
 Version:        1.2.99
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -16,7 +16,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source1:        %{name}.init
 Source2:        %{name}.logrotate
 Source3:        %{name}.service
-%if "%{dist}" == ".el5"
+%if "%{dist}" == ".el4" || "%{dist}" == ".el5"
 Source100:      http://www.openssl.org/source/openssl-%{opensslversion}.tar.gz
 %endif
 
@@ -24,7 +24,11 @@ Source100:      http://www.openssl.org/source/openssl-%{opensslversion}.tar.gz
 Patch0: 01-drop-privileges.patch
 
 BuildRequires:  pam-devel mysql-devel pcre
-BuildRequires:  php-cli GeoIP-devel openldap-devel
+%if "%{dist}" == ".el4"
+BuildRequires:  php
+%else
+BuildRequires:  php-cli
+%endif
 # BuildRequires:  pcre-devel
 BuildRequires:  gettext
 # For spawn-fcgi
@@ -62,7 +66,7 @@ This package holds the development files for cherokee.
 
 
 %prep
-%if "%{dist}" == ".el5"
+%if "%{dist}" == ".el4" || "%{dist}" == ".el5"
 %setup -q -a 100
 %else
 %setup -q
@@ -70,7 +74,7 @@ This package holds the development files for cherokee.
 %patch0 -p1 -b .privs
 
 %build
-%if "%{dist}" == ".el5"
+%if "%{dist}" == ".el4" || "%{dist}" == ".el5"
 pushd openssl-%{opensslversion}
 ./config --prefix=/usr --openssldir=%{_sysconfdir}/pki/tls shared
 RPM_OPT_FLAGS="$RPM_OPT_FLAGS -Wa,--noexecstack"
@@ -84,7 +88,7 @@ popd
 %endif
 
 %configure --with-wwwroot=%{_var}/www/%{name} \
-%if "%{dist}" == ".el5"
+%if "%{dist}" == ".el4" || "%{dist}" == ".el5"
    --with-libssl=$(pwd)/openssl-%{opensslversion} --enable-static-module=libssl \
 %else
    --with-libssl \
@@ -244,6 +248,9 @@ fi
 %{_libdir}/lib%{name}-*.so
 
 %changelog
+* Wed Sep 14 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.99-2
+- .spec corrections for EL4 build
+
 * Sat Sep 10 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.99-1
 - Latest 1.2.x upstream release
 - Resolves bz 713306
