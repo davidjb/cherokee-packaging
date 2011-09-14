@@ -4,8 +4,5 @@ cherokee-1.0.8.tar.gz
 cherokee-1.0.20.tar.gz
 clog
 cherokee-1.2.1.tar.gz
-<<<<<<< HEAD
-/openssl-1.0.0d.tar.gz
-=======
-/cherokee-1.2.99.tar.gz
->>>>>>> master
+cherokee-1.2.99.tar.gz
+openssl-1.0.0d.tar.gz
