@@ -1,10 +1,10 @@
 %define         home %{_var}/lib/%{name}
-%define         shortversion %(echo %{version} | grep -oE '[0-9]+\.[0-9]+')
+%define         shortversion   %(echo %{version} | sed -e 's/^\([0-9]+\.[0-9]+\)\.[0-9]+/\1/g')
 %define         opensslversion 1.0.0d
 %{!?_unitdir:%define _unitdir /lib/systemd/system}
 
 Name:           cherokee
-Version:        1.2.99
+Version:        1.2.100
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
@@ -16,7 +16,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source1:        %{name}.init
 Source2:        %{name}.logrotate
 Source3:        %{name}.service
-%if "%{dist}" == ".el5"
+%if "%{dist}" == ".el4" || "%{dist}" == ".el5"
 Source100:      http://www.openssl.org/source/openssl-%{opensslversion}.tar.gz
 %endif
 
@@ -24,13 +24,17 @@ Source100:      http://www.openssl.org/source/openssl-%{opensslversion}.tar.gz
 Patch0: 01-drop-privileges.patch
 
 BuildRequires:  pam-devel mysql-devel pcre
-BuildRequires:  php-cli GeoIP-devel openldap-devel
+%if "%{dist}" == ".el4"
+BuildRequires:  php
+%else
+BuildRequires:  php-cli
+%endif
 # BuildRequires:  pcre-devel
 BuildRequires:  gettext
 # For spawn-fcgi
 Requires:        spawn-fcgi
 
-%if "%{dist}" == ".f15" || "%{dist}" == ".f16"
+%if "%{dist}" == ".fc15" || "%{dist}" == ".fc16" || "%{dist}" == ".fc17"
 Requires(post): systemd-units
 Requires(preun): systemd-units
 Requires(postun): systemd-units
@@ -62,7 +66,7 @@ This package holds the development files for cherokee.
 
 
 %prep
-%if "%{dist}" == ".el5"
+%if "%{dist}" == ".el4" || "%{dist}" == ".el5"
 %setup -q -a 100
 %else
 %setup -q
@@ -70,7 +74,7 @@ This package holds the development files for cherokee.
 %patch0 -p1 -b .privs
 
 %build
-%if "%{dist}" == ".el5"
+%if "%{dist}" == ".el4" || "%{dist}" == ".el5"
 pushd openssl-%{opensslversion}
 ./config --prefix=/usr --openssldir=%{_sysconfdir}/pki/tls shared
 RPM_OPT_FLAGS="$RPM_OPT_FLAGS -Wa,--noexecstack"
@@ -84,7 +88,7 @@ popd
 %endif
 
 %configure --with-wwwroot=%{_var}/www/%{name} \
-%if "%{dist}" == ".el5"
+%if "%{dist}" == ".el4" || "%{dist}" == ".el5"
    --with-libssl=$(pwd)/openssl-%{opensslversion} --enable-static-module=libssl \
 %else
    --with-libssl \
@@ -105,7 +109,7 @@ make install DESTDIR=%{buildroot}
 %{__install} -D -m 0644 %{SOURCE2}   %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 %{__install} -d %{buildroot}%{_var}/{log,lib}/%{name}/
 %{__install} -d %{buildroot}%{_sysconfdir}/pki/%{name}
-%if "%{dist}" == ".f15" || "%{dist}" == ".f16"
+%if "%{dist}" == ".fc15" || "%{dist}" == ".fc16" || "%{dist}" == ".fc17"
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -D -m 0644 %{SOURCE3}   %{buildroot}%{_unitdir}/%{name}.service
 %else
@@ -145,14 +149,8 @@ useradd -r -g %{name} -d %{home} -s /sbin/nologin \
    -c "%{name} web server" %{name}
 exit 0
 
-%preun
-if [ $1 = 0 ] ; then
-    /sbin/service %{name} stop >/dev/null 2>&1
-    /sbin/chkconfig --del %{name}
-fi
-
 %post
-%if "%{dist}" == ".f15" || "%{dist}" == ".f16"
+%if "%{dist}" == ".fc15" || "%{dist}" == ".fc16" || "%{dist}" == ".fc17"
 if [ $1 -eq 1 ] ; then 
     # Initial installation: enabled by default
     /bin/systemctl enable cherokee.service >/dev/null 2>&1 || :
@@ -162,17 +160,22 @@ fi
 /sbin/chkconfig --add %{name}
 %endif
 
-%if "%{dist}" == ".f15" || "%{dist}" == ".f16"
 %preun
+%if "%{dist}" == ".fc15" || "%{dist}" == ".fc16" || "%{dist}" == ".fc17"
 if [ $1 -eq 0 ] ; then
     # Package removal, not upgrade
     /bin/systemctl --no-reload disable cherokee.service > /dev/null 2>&1 || :
     /bin/systemctl stop cherokee.service > /dev/null 2>&1 || :
 fi
+%else
+if [ $1 = 0 ] ; then
+    /sbin/service %{name} stop >/dev/null 2>&1
+    /sbin/chkconfig --del %{name}
+fi
 %endif
 
 %postun
-%if "%{dist}" == ".f15" || "%{dist}" == ".f16"
+%if "%{dist}" == ".fc15" || "%{dist}" == ".fc16" || "%{dist}" == ".fc17"
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 if [ $1 -ge 1 ] ; then
     # Package upgrade, not uninstall
@@ -184,7 +187,7 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%if "%{dist}" == ".f15" || "%{dist}" == ".f16"
+%if "%{dist}" == ".fc15" || "%{dist}" == ".fc16" || "%{dist}" == ".fc17"
 %{_unitdir}/%{name}.service
 %else
 %{_sysconfdir}/init.d/%{name}
@@ -244,6 +247,16 @@ fi
 %{_libdir}/lib%{name}-*.so
 
 %changelog
+* Mon Oct 10 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.100-1
+- Latest 1.2.x upstream release
+- .spec corrections for optional build for systemd
+- Resolves bz 710474
+- Resolves bz 713307
+- Resolves bz 680691
+
+* Wed Sep 14 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.99-2
+- .spec corrections for EL4 build
+
 * Sat Sep 10 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.99-1
 - Latest 1.2.x upstream release
 - Resolves bz 713306
