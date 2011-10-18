@@ -5,7 +5,7 @@
 
 Name:           cherokee
 Version:        1.2.100
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -23,7 +23,7 @@ Source100:      http://www.openssl.org/source/openssl-%{opensslversion}.tar.gz
 # Drop privileges to cherokee:cherokee after startup
 Patch0: 01-drop-privileges.patch
 
-BuildRequires:  pam-devel mysql-devel pcre
+BuildRequires:  pam-devel mysql-devel pcre GeoIP-devel openldap-devel
 %if "%{dist}" == ".el4"
 BuildRequires:  php
 %else
@@ -247,6 +247,9 @@ fi
 %{_libdir}/lib%{name}-*.so
 
 %changelog
+* Tue Oct 18 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.100-2
+- Resolves bz 746532 - put some deps back: GeoIP-devel openldap-devel
+
 * Mon Oct 10 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.100-1
 - Latest 1.2.x upstream release
 - .spec corrections for optional build for systemd
