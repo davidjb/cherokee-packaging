@@ -4,8 +4,8 @@
 %{!?_unitdir:%define _unitdir /lib/systemd/system}
 
 Name:           cherokee
-Version:        1.2.100
-Release:        2%{?dist}
+Version:        1.2.101
+Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
@@ -218,7 +218,7 @@ fi
 %attr(-,%{name},%{name}) %{_var}/log/%{name}/error_log
 %attr(-,%{name},%{name}) %{_var}/log/%{name}/access_log
 %attr(-,%{name},%{name}) %dir %{_var}/lib/%{name}/
-%doc AUTHORS ChangeLog COPYING INSTALL README
+%doc AUTHORS ChangeLog COPYING README
 %doc %{_datadir}/doc/%{name}
 %doc %{_mandir}/man1/cget.1*
 %doc %{_mandir}/man1/cherokee.1*
@@ -247,6 +247,9 @@ fi
 %{_libdir}/lib%{name}-*.so
 
 %changelog
+* Wed Oct 19 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.101-1
+- Latest 1.2.x upstream release
+
 * Tue Oct 18 2011 Pavel Lisý <pali@fedoraproject.org> - 1.2.100-2
 - Resolves bz 746532 - put some deps back: GeoIP-devel openldap-devel
 
