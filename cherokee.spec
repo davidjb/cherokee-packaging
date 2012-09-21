@@ -1,17 +1,18 @@
 %define         home %{_var}/lib/%{name}
-%define         shortversion   %(echo %{version} | sed -e 's/^\([0-9]+\.[0-9]+\)\.[0-9]+/\1/g')
+%define         shortversion   %(echo %{version} | sed -r 's/\.[0-9]+$//g')
 %define         opensslversion 1.0.0d
 %{!?_unitdir:%define _unitdir /lib/systemd/system}
 
 Name:           cherokee
-Version:        1.2.101
+Version:        1.2.102
 Release:        1%{?dist}
 Summary:        Flexible and Fast Webserver
 
 Group:          Applications/Internet
 License:        GPLv2
 URL:            http://www.cherokee-project.com/
-Source0:        http://www.cherokee-project.com/download/%{shortversion}/%{version}/%{name}-%{version}.tar.gz
+#Source0:        http://www.cherokee-project.com/download/%{shortversion}/%{version}/%{name}-%{version}.tar.gz
+Source0:        http://www.hpc.jcu.edu.au/sources/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source1:        %{name}.init
 Source2:        %{name}.logrotate
@@ -93,7 +94,7 @@ popd
 %else
    --with-libssl \
 %endif
-   --enable-trace --enable-backtraces --disable-static
+   --disable-static
 # Get rid of rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -128,9 +129,9 @@ touch %{buildroot}%{_var}/log/%{name}/access_log \
 
 find  %{buildroot}%{_libdir} -name *.la -exec rm -rf {} \;
 
-mv ChangeLog ChangeLog.iso8859-1
+#mv ChangeLog ChangeLog.iso8859-1
 chmod -x COPYING
-iconv -f ISO8859-1 -t UTF8 ChangeLog.iso8859-1 > ChangeLog
+#iconv -f ISO8859-1 -t UTF8 ChangeLog.iso8859-1 > ChangeLog
 
 # Get rid of spawn-fcgi bits, they conflict with the lighttpd-fastcgi package
 # but are otherwise identical.
@@ -218,7 +219,7 @@ fi
 %attr(-,%{name},%{name}) %{_var}/log/%{name}/error_log
 %attr(-,%{name},%{name}) %{_var}/log/%{name}/access_log
 %attr(-,%{name},%{name}) %dir %{_var}/lib/%{name}/
-%doc AUTHORS ChangeLog COPYING README
+%doc AUTHORS COPYING 
 %doc %{_datadir}/doc/%{name}
 %doc %{_mandir}/man1/cget.1*
 %doc %{_mandir}/man1/cherokee.1*
